@@ -151,17 +151,32 @@ public class TestUserValidator {
     }
 
 //    TEST CASES FOR PASSWORD RULE 3 - ONE NUMERIC AT LEAST
-@Test
-public void givenPassword_WhenPasswordHaveAtleastOneNumericNumber_ShouldReturn_True() {
-    UserValidator userValidator = new UserValidator();
-    boolean result = userValidator.validatePassword("Paraglande2$");
-    Assert.assertEquals(true, result);
-}
+    @Test
+    public void givenPassword_WhenPasswordHaveAtleastOneNumericNumber_ShouldReturn_True() {
+        UserValidator userValidator = new UserValidator();
+        boolean result = userValidator.validatePassword("Paraglande2$");
+        Assert.assertEquals(true, result);
+    }
 
     @Test
     public void givenPassword_WhenPasswordNotHaveAtleastOneNumericNumber_ShouldReturn_False() {
         UserValidator userValidator = new UserValidator();
         boolean result = userValidator.validatePassword("adased@");
+        Assert.assertEquals(false, result);
+    }
+//    TEST CASES FOR PASSWORD RULE 3- ONE SPECIAL CHARACTER
+
+    @Test
+    public void givenPassword_WhenPasswordHaveAtleastOneSpeacialCharacter_ShouldReturn_True() {
+        UserValidator userValidator = new UserValidator();
+        boolean result = userValidator.validatePassword("Parag234$");
+        Assert.assertEquals(true, result);
+    }
+
+    @Test
+    public void givenPassword_WhenPasswordNotHaveAtleastOneSpeacialCharacter_ShouldReturn_False() {
+        UserValidator userValidator = new UserValidator();
+        boolean result = userValidator.validatePassword("parag123");
         Assert.assertEquals(false, result);
     }
 }
