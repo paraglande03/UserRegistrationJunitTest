@@ -125,28 +125,28 @@ public class TestUserValidator {
         @Test
         public void givenPassword_WhenPasswordIsMinimumEightDigit_ShouldReturn_True() {
             UserValidator userValidator = new UserValidator();
-            boolean result = userValidator.validatePassword("Avinash234$");
+            boolean result = userValidator.validatePassword("Parag234$");
             Assert.assertEquals(true, result);
         }
 
         @Test
         public void givenPassword_WhenPasswordIsNotMinimumEightDigit_ShouldReturn_False() {
             UserValidator userValidator = new UserValidator();
-            boolean result = userValidator.validatePassword("avin");
+            boolean result = userValidator.validatePassword("parag");
             Assert.assertEquals(false, result);
         }
 //      TEST CASES FOR PASSWORD RULE 2 - AT LEAST ONE CAPITAL LETTER
 @Test
 public void givenPassword_WhenPasswordHaveAtleastOneCapitalLetter_ShouldReturn_True() {
     UserValidator userValidator = new UserValidator();
-    boolean result = userValidator.validatePassword("Avinash123@");
+    boolean result = userValidator.validatePassword("Parag123@");
     Assert.assertEquals(true, result);
 }
 
     @Test
     public void givenPassword_WhenPasswordNotHaveAtleastOneCapitalLetter_ShouldReturn_False() {
         UserValidator userValidator = new UserValidator();
-        boolean result = userValidator.validatePassword("avinash@");
+        boolean result = userValidator.validatePassword("paraglande@");
         Assert.assertEquals(false, result);
     }
 }
