@@ -121,7 +121,7 @@ public class TestUserValidator {
             Assert.assertEquals(false, result);
         }
 
-        //      TEST CASESS FOR PASSWORD RULE 1 8 CHARACTERS
+        //      TEST CASESS FOR PASSWORD RULE 1 - 8 CHARACTERS
         @Test
         public void givenPassword_WhenPasswordIsMinimumEightDigit_ShouldReturn_True() {
             UserValidator userValidator = new UserValidator();
@@ -135,5 +135,18 @@ public class TestUserValidator {
             boolean result = userValidator.validatePassword("avin");
             Assert.assertEquals(false, result);
         }
+//      TEST CASES FOR PASSWORD RULE 2 - AT LEAST ONE CAPITAL LETTER
+@Test
+public void givenPassword_WhenPasswordHaveAtleastOneCapitalLetter_ShouldReturn_True() {
+    UserValidator userValidator = new UserValidator();
+    boolean result = userValidator.validatePassword("Avinash123@");
+    Assert.assertEquals(true, result);
+}
 
+    @Test
+    public void givenPassword_WhenPasswordNotHaveAtleastOneCapitalLetter_ShouldReturn_False() {
+        UserValidator userValidator = new UserValidator();
+        boolean result = userValidator.validatePassword("avinash@");
+        Assert.assertEquals(false, result);
+    }
 }
