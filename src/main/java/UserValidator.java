@@ -1,5 +1,5 @@
 import java.util.regex.Pattern;
-import java.util.regex.Pattern;
+
 public class UserValidator {
 
 
@@ -29,6 +29,18 @@ public class UserValidator {
     public boolean validatePassword(String password) {
         Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
         return pattern.matcher(password).matches();
+    }
+//    for multiple test
+    public boolean multipleEmailvalidate(String email)
+    {
+        if(Pattern.matches(EMAIL_PATTERN, email))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 }
