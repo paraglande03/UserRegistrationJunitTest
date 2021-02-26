@@ -1,318 +1,112 @@
-import org.junit.jupiter.api.Test;
-import org.testng.Assert;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import java.util.Arrays;
+import java.util.List;
 
 public class TestUserValidator {
-
-
-    //   test cases for first name
-        @Test
-
-        public void givenFirstName_ShouldReturn_True() {
-            try {UserValidator userValidator = new UserValidator();
-                boolean result = userValidator.validateFirstName("Parag");
-                Assert.assertEquals(true, result);
-            }
-            catch (Exception e){
-                System.out.println("Enter valid details");
-            }
+    @Test
+    public void givenFirstName_ShouldReturn_True() {
+        boolean result=false;
+        try {
+            ExpectedException expectedException = ExpectedException.none();
+            expectedException.expect(InvalidUserException.class);
+            UserValidator userValidator = new UserValidator();
+            result = userValidator.validateFirstName("^[A-Z]{1}[a-z]{2,}$", "Parag");
         }
-        @Test
-        public void givenFirstName_ShouldReturn_False() {
-            try {
-                UserValidator userValidator = new UserValidator();
-                boolean result = userValidator.validateFirstName("parag");
-                Assert.assertEquals(false, result);
-            }
-           catch (Exception e){
-
-           }
+        catch (InvalidUserException e){
+            e.printStackTrace();
         }
-        @Test
-        public void givenFirstName_MinimumThreeLetters_ShouldReturn_True() {
-            try {
-                UserValidator userValidator = new UserValidator();
-                boolean result = userValidator.validateFirstName("Par");
-                Assert.assertEquals(true, result);
-            }
-            catch (Exception e){
-
-            }
+        Assert.assertTrue(result);
+    }
+    @Test
+    public void givenLastName_WhenLastNameStartsWithCapitalLetter_ShouldReturn_True() {
+        boolean result =false;
+        try {
+            ExpectedException expectedException = ExpectedException.none();
+            expectedException.expect(InvalidUserException.class);
+            UserValidator userValidator = new UserValidator();
+            result = userValidator.validateLastName("^[A-Z]{1}[a-z]{2,}$", "Lande");
+        }catch (InvalidUserException e){
+            e.printStackTrace();
         }
-        @Test
-        public void givenFirstName_NotHaveMinimumThreeLetters_ShouldReturn_False() {
-            try {
-                UserValidator userValidator = new UserValidator();
-                boolean result = userValidator.validateFirstName("Pa");
-                Assert.assertEquals(false, result);
-            }
-           catch (Exception e){
-
-           }
+        Assert.assertTrue(result);
+    }
+    @Test
+    public void givenEmail_WhenEmailStartsWithSmallLetter_ShouldReturn_True() {
+        boolean result =false;
+        try {
+            ExpectedException expectedException = ExpectedException.none();
+            expectedException.expect(InvalidUserException.class);
+            UserValidator userValidator = new UserValidator();
+            result = userValidator.validateEmail("^[a-zA-Z0-9\\\\-\\\\+\\\\.]+.([a-zA-Z0-9])*@([a-z0-9]+.[a-z]{2,}.([a-z]{2,})?)$","paraglande03@gmail.com");
+        }catch (InvalidUserException e){
+            e.printStackTrace();
         }
-
-
-//      TEST CASES FOR LAST NAME
-        @Test
-        public void givenLastName_WhenLastNameStartsWithCapitalLetter_ShouldReturn_True() {
-            try {
-                UserValidator userValidator = new UserValidator();
-                boolean result = userValidator.validateLastName("Lande");
-                Assert.assertEquals(true, result);
-            }
-            catch (Exception e){
-
-            }
-
+        Assert.assertFalse(result);
+    }
+    @Test
+    public void givenPhoneNumber_WhenPhoneNumberIsFollowedByCountryCode_True() {
+        boolean result =false;
+        try {
+            ExpectedException expectedException = ExpectedException.none();
+            expectedException.expect(InvalidUserException.class);
+            UserValidator userValidator = new UserValidator();
+            result = userValidator.validatePhone("^[1-9][0-9]+[ ]{0,1}+[1-9][0-9]{9}$","91 7350352075");
+        }catch (InvalidUserException e){
+            e.printStackTrace();
         }
+        Assert.assertTrue(result);
 
-        @Test
-        public void givenLastName_WhenLastNameNotStartsWithCapitalLetter_ShouldReturn_False() {
-            try {
-                UserValidator userValidator = new UserValidator();
-                boolean result = userValidator.validateLastName("lande");
-                Assert.assertEquals(false, result);
-            }
-            catch (Exception e){
+    }
 
-            }
-
-        }
-
-        @Test
-        public void givenLastName_WhenLastNameHaveMinimumThreeLetter_ShouldReturn_True() {
-            try {
-                UserValidator userValidator = new UserValidator();
-                boolean result = userValidator.validateLastName("Lan");
-                Assert.assertEquals(true, result);
-            }
-           catch (Exception e){
-
-           }
-        }
-
-        @Test
-        public void givenLastName_WhenLastNameNotHaveMinimumThreeLetter_ShouldReturn_False() {
-            try {
-                UserValidator userValidator = new UserValidator();
-                boolean result = userValidator.validateLastName("la");
-                Assert.assertEquals(false, result);
-            }
-            catch (Exception e){
-
-            }
-        }
-
-
-//        TEST CASES FOR E-MAIL
-            @Test
-            public void givenEmail_WhenEmailStartsWithSmallLetter_ShouldReturn_True() {
-            try {
-                UserValidator userValidator = new UserValidator();
-                boolean result = userValidator.validateEmail("paraglande03@gmail.com");
-                Assert.assertEquals(true, result);
-            }
-            catch (Exception e){
-                System.out.println("Enter valid details");
-            }
-            }
-
-            @Test
-            public void givenEmail_WhenEmailNotStartsWithSmallLetter_ShouldReturn_False() {
-            try {
-                UserValidator userValidator = new UserValidator();
-                boolean result = userValidator.validateEmail("Parag@gmail.com");
-                Assert.assertEquals(false, result);
-            }
-            catch (Exception e){
-                System.out.println("Enter valid details");
-            }
-            }
-
-            @Test
-            public void givenEmail_WhenEmailEndsWithComOrIn_ShouldReturn_True() {
-            try {
-                UserValidator userValidator = new UserValidator();
-                boolean result = userValidator.validateEmail("abc111@yahoo.com");
-                Assert.assertEquals(true, result);
-            }
-
-                catch (Exception e){
-                    System.out.println("Enter valid details");
-                }
-            }
-
-            @Test
-            public void givenEmail_WhenEmailNotEndsWithComOrIn_ShouldReturn_False() {
-            try { UserValidator userValidator = new UserValidator();
-                boolean result = userValidator.validateEmail("Abc@gmail.kjnk");
-                Assert.assertEquals(false, result);
-
-            }
-            catch (Exception e){
-                System.out.println("Enter valid details");
-            }
-
-            }
-
-
-//            TEST CASES FOR PHONE NUMBER
-
-        @Test
-        public void givenPhoneNumber_WhenPhoneNumberIsFollowedByCountryCode_True() {
-            try {UserValidator userValidator = new UserValidator();
-                boolean result = userValidator.validatePhone("91 9604445258");
-                Assert.assertEquals(true, result);
-
-            }
-            catch (Exception e){
-                System.out.println("Enter valid details");
-            }
-        }
-
-        @Test
-        public void givenPhoneNumber_WhenPhoneNumberIsNotFollowedByCountryCode_ShouldReturn_False() {
-            try {
-                UserValidator userValidator = new UserValidator();
-                boolean result = userValidator.validatePhone("8105215414");
-                Assert.assertEquals(false, result);
-            }
-            catch (Exception e){
-                System.out.println("Enter valid details");
-            }
-        }
-
-        @Test
-        public void givenPhoneNumber_WhenPhoneNumberIsTenDigit_True() {
-            try {
-                UserValidator userValidator = new UserValidator();
-                boolean result = userValidator.validatePhone("91 9604445258");
-                Assert.assertEquals(true, result);
-            }
-            catch (Exception e){
-                System.out.println("Enter valid details");
-            }
-
-        }
-
-        @Test
-        public void givenPhoneNumber_WhenPhoneNumberIsNotTenDigit_ShouldReturn_False() {
-            try {
-                UserValidator userValidator = new UserValidator();
-                boolean result = userValidator.validatePhone("91 8105215");
-                Assert.assertEquals(false, result);
-            }
-
-            catch (Exception e){
-                System.out.println("Enter valid details");
-            }
-        }
-
-        //      TEST CASESS FOR PASSWORD RULE 1 - 8 CHARACTERS
-        @Test
-        public void givenPassword_WhenPasswordIsMinimumEightDigit_ShouldReturn_True() {
-            try {
-                UserValidator userValidator = new UserValidator();
-                boolean result = userValidator.validatePassword("Parag234$");
-                Assert.assertEquals(true, result);
-            }
-            catch (Exception e){
-                System.out.println("Enter valid details");
-            }
-
-        }
-
-        @Test
-        public void givenPassword_WhenPasswordIsNotMinimumEightDigit_ShouldReturn_False() {
-            try {
-                UserValidator userValidator = new UserValidator();
-                boolean result = userValidator.validatePassword("parag");
-                Assert.assertEquals(false, result);
-            }
-            catch (Exception e){
-                System.out.println("Enter valid details");
-            }
-
-        }
-//      TEST CASES FOR PASSWORD RULE 2 - AT LEAST ONE CAPITAL LETTER
     @Test
     public void givenPassword_WhenPasswordHaveAtleastOneCapitalLetter_ShouldReturn_True() {
-            try {
-                UserValidator userValidator = new UserValidator();
-                boolean result = userValidator.validatePassword("Parag123@");
-                Assert.assertEquals(true, result);
-            }
-            catch (Exception e){
-                System.out.println("Enter valid details");
-            }
-
-}
-
-    @Test
-    public void givenPassword_WhenPasswordNotHaveAtleastOneCapitalLetter_ShouldReturn_False() {
-            try {
-                UserValidator userValidator = new UserValidator();
-                boolean result = userValidator.validatePassword("paraglande@");
-                Assert.assertEquals(false, result);
-            }
-            catch (Exception e){
-                System.out.println("Enter valid details");
-            }
-
+        boolean result =false;
+        try {
+            ExpectedException expectedException = ExpectedException.none();
+            expectedException.expect(InvalidUserException.class);
+            UserValidator userValidator = new UserValidator();
+            result = userValidator.validatePassword("(?=.*[a-z])(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%!]{1}).{8,}","Parag@123");
+        }catch (InvalidUserException e){
+            e.printStackTrace();
+        }
+        Assert.assertTrue(result);
     }
-
-//    TEST CASES FOR PASSWORD RULE 3 - ONE NUMERIC AT LEAST
-    @Test
-    public void givenPassword_WhenPasswordHaveAtleastOneNumericNumber_ShouldReturn_True() {
+    //UseCase11-Parameterised Test to validate multiple entry for the Email Address.
+    @RunWith(Parameterized.class)
+    public static class TestFormRegistration
+    {
+        String emailId;
+        boolean expectedResult;
+        private UserValidator emailVariable;
+        UserValidator formObject = new UserValidator();
+        public TestFormRegistration(String emailId, boolean expectedResult)
+        {
+            this.emailId = emailId;
+            this.expectedResult = expectedResult;
+        }
+        @Before
+        public void initialize()
+        {
+            emailVariable = new UserValidator();
+        }
+        @Parameterized.Parameters
+        public static List<Object[]> emails()
+        {
+            return Arrays.asList(new Object[][] { {"Parag@gmail.com", true}, {"Parag@gmail.co.in",true}, {"paraggmail.com", false}});
+        }
+        @Test
+        public void testEmailId() throws InvalidUserException {
             try {
-                UserValidator userValidator = new UserValidator();
-                boolean result = userValidator.validatePassword("Paraglande2$");
-                Assert.assertEquals(true, result);
+                System.out.println("parameter email is->" + emailId);
+                Assert.assertEquals(expectedResult, emailVariable.multipleEmailvalidate(emailId));
+            } catch (NullPointerException e) {
+                System.out.println(e);
             }
-            catch (Exception e){
-                System.out.println("Enter valid details");
-            }
-
+        }
     }
-
-    @Test
-    public void givenPassword_WhenPasswordNotHaveAtleastOneNumericNumber_ShouldReturn_False() {
-            try {
-                UserValidator userValidator = new UserValidator();
-                boolean result = userValidator.validatePassword("adased@");
-                Assert.assertEquals(false, result);
-            }
-            catch (Exception e){
-                System.out.println("Enter valid details");
-            }
-
-    }
-//    TEST CASES FOR PASSWORD RULE 3- ONE SPECIAL CHARACTER
-
-    @Test
-    public void givenPassword_WhenPasswordHaveAtleastOneSpeacialCharacter_ShouldReturn_True() {
-            try {
-                UserValidator userValidator = new UserValidator();
-                boolean result = userValidator.validatePassword("Parag234$");
-                Assert.assertEquals(true, result);
-            }
-            catch (Exception e){
-                System.out.println("Enter valid details");
-            }
-
-    }
-
-    @Test
-    public void givenPassword_WhenPasswordNotHaveAtleastOneSpeacialCharacter_ShouldReturn_False() {
-            try {
-                UserValidator userValidator = new UserValidator();
-                boolean result = userValidator.validatePassword("parag123");
-                Assert.assertEquals(false, result);
-            }
-            catch (Exception e){
-                System.out.println("Enter valid details");
-            }
-
-    }
-
-
 }
